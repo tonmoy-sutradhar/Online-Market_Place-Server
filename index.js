@@ -55,6 +55,19 @@ async function run() {
       res.send(result);
     });
 
+    // 6. Update a job (PUT)
+    app.put("/update-job/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const jobData = req.body;
+      const UpdateJob = {
+        $set: jobData,
+      };
+      const options = { upsert: true };
+      const result = await jobsCollection.updateOne(filter, UpdateJob, options);
+      res.send(result);
+    });
+
     // 4. Delete a job form Database
     app.delete("/job/:id", async (req, res) => {
       const id = req.params.id;
