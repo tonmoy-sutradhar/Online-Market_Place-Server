@@ -26,7 +26,13 @@ async function run() {
 
     const jobsCollection = client.db("Online-Market").collection("jobs");
 
-    // Add a job (POST)
+    // 2. Get all jobs from DB
+    app.get("/jobs", async (req, res) => {
+      const cursor = await jobsCollection.find().toArray();
+      res.send(cursor);
+    });
+
+    // 1. Add a job (POST)
     app.post("/add-job", async (req, res) => {
       const jobData = req.body;
       const result = await jobsCollection.insertOne(jobData);
